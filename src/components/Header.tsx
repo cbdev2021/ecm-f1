@@ -15,6 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -24,7 +25,7 @@ const Search = styled('div')(({ theme }) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
+    width: '50%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
         width: 'auto',
@@ -150,23 +151,54 @@ const Header = () => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
+
+                    {/* //Evaluar a derecha de Hamburguesa */}
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            Fmr: 2,
+                            width: {
+                                xs: 60,
+                                sm: 60,
+                                md: 60,
+                                lg: 60,
+                                xl: 60
+                            }
+                        }}
+                    >
+                        ECM
+                    </Typography>
+
                     <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 2 }}
+                        sx={{
+                            mr: 2,
+                            width: {
+                                xs: 30,
+                                sm: 30,
+                                md: 30,
+                                lg: 30,
+                                xl: 30
+                            },
+                            height: {
+                                xs: 30,
+                                sm: 30,
+                                md: 30,
+                                lg: 30,
+                                xl: 30
+                            }
+                        }}
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        MUI
-                    </Typography>
+
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
