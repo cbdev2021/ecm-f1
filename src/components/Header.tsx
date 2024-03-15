@@ -14,6 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import MoreIcon from '@mui/icons-material/MoreVert';
+// import './global.css';  // no necesario, fue inyectado en index
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -25,7 +26,7 @@ const Search = styled('div')(({ theme }) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '50%',
+    width: '45%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
         width: 'auto',
@@ -149,7 +150,9 @@ const Header = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            {/* <AppBar position="static"> */}
+            <AppBar position="static" className="header-app-bar">
+
                 <Toolbar>
 
                     {/* //Evaluar a derecha de Hamburguesa */}

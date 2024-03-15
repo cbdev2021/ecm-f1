@@ -106,3 +106,11 @@ button:focus-visible {
   color: #888;
 }
  
+/* body .header-app-bar {
+  background-color: #333333;
+} */
+
+.header-app-bar {
+  /* background-color: #333333; no toma*/ 
+  background-color: #333333 !important;
+}
