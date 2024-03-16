@@ -43,7 +43,7 @@ const Drawer: FunctionComponent<DrawerProps> = ({ open, onClose, onOpen }) => {
                             <ListItemText primary="Close" />
                         </ListItemButton>
                     </ListItem>
-                    {['Home', 'Billing', 'Inventory', 'Reports'].map((text, index) => (
+                    {['Home', 'Electronics', 'Jewelry', "Men's Clothing", "Women's Clothing"].map((text, index) => (
                         <ListItem key={text} disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
