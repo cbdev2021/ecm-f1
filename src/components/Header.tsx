@@ -56,7 +56,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const Header = () => {
+interface HeaderProps {
+    onMenuClick: () => void;
+}
+
+
+// const Header = () => {
+// const Header: <HeaderProps> = ({ onMenuClick }) => {
+const Header: React.FC<HeaderProps> = ({ onMenuClick }) => { 
+
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -143,7 +152,7 @@ const Header = () => {
                         <ShoppingCartCheckoutIcon />
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
+                <p>Carrito</p>
             </MenuItem>
         </Menu>
     );
@@ -198,6 +207,7 @@ const Header = () => {
                                 xl: 30
                             }
                         }}
+                        onClick={onMenuClick}
                     >
                         <MenuIcon />
                     </IconButton>

@@ -1,15 +1,21 @@
+import Drawer from './components/Drawer';
 import Header from './components/Header';
 import { useState } from 'react';
 
+
 function App() {
   const [count, setCount] = useState(0);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
 
   return (
     <>
-      <Header />
-      <div>
+      <Header onMenuClick={toggleDrawer} />
+      <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => { }} />
 
-      </div>
       <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
