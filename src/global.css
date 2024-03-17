@@ -134,6 +134,7 @@ button:focus-visible {
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
+  padding: 15px;
 }
 
 .product img {
