@@ -1,33 +1,107 @@
+import React, { useState } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Drawer from './components/Drawer';
 import Header from './components/Header';
-import { useState } from 'react';
-import ProductCatalog from './components/ProductCatalog'; // Importa el componente ProductCatalog
+import ProductCatalog from './components/ProductCatalog';
 import Footer from './components/Footer';
+import ProductDetail from './components/ProductDetail';
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState('All'); // Agrega estado para la categoría seleccionada
+  const [categoryFilter, setCategoryFilter] = useState('All');
+  const [selectedProduct, setSelectedProduct] = useState<any>(null); // Cambiar el tipo de selectedProduct a cualquier objeto de producto
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
   const handleCategorySelect = (category: string) => {
-    setCategoryFilter(category); // Actualiza la categoría seleccionada
-    setDrawerOpen(false); // Cierra el Drawer después de seleccionar una categoría
+    setCategoryFilter(category);
+    setDrawerOpen(false);
+  };
+
+  const handleProductSelect = (product: any) => { // Cambiar el tipo de producto a cualquier objeto de producto
+    setSelectedProduct(product);
+  };
+
+  const handleBackClick = () => {
+    setSelectedProduct(null);
   };
 
   return (
     <>
       <Header onMenuClick={toggleDrawer} />
-      <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => {}} handleCategorySelect={handleCategorySelect} /> {/* Pasa la función de selección de categoría */}
-      <ProductCatalog categoryFilter={categoryFilter} /> {/* Pasa la categoría seleccionada como prop al componente ProductCatalog */}
+      <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => {}} handleCategorySelect={handleCategorySelect} />
+
+      <Routes>
+        <Route path="/" element={<Navigate to="/product-catalog" />} />
+        <Route path="/product-catalog" element={<ProductCatalog onSelectProduct={handleProductSelect} categoryFilter={categoryFilter} />} />
+        <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick} />} />
+      </Routes>
+
       <Footer />
     </>
   );
 }
 
 export default App;
+
+
+
+// // App.tsx
+// import  { useState } from 'react';
+// import { Navigate, Route, Routes } from 'react-router-dom';
+// import Drawer from './components/Drawer';
+// import Header from './components/Header';
+// import ProductCatalog from './components/ProductCatalog';
+// import Footer from './components/Footer';
+// import ProductPage from './components/ProductPage';
+
+// function App() {
+//   const [drawerOpen, setDrawerOpen] = useState(false);
+//   const [categoryFilter, setCategoryFilter] = useState('All');
+//   const [selectedProduct, setSelectedProduct] = useState(null);
+
+//   const toggleDrawer = () => {
+//     setDrawerOpen(!drawerOpen);
+//   };
+
+//   const handleCategorySelect = (category: string) => {
+//     setCategoryFilter(category);
+//     setDrawerOpen(false);
+//   };
+
+//   const handleProductSelect = (productId: string) => {
+//     setSelectedProduct(productId);
+//   };
+
+
+
+//   return (
+//     <>
+//       <Header onMenuClick={toggleDrawer} />
+//       <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => {}} handleCategorySelect={handleCategorySelect} />
+
+//       <Routes>
+//         <Route path="/" element={<Navigate to="/product-catalog" />} />
+//         <Route path="/product-catalog" element={<ProductCatalog categoryFilter={categoryFilter} onSelectProduct={handleProductSelect} />} />
+//         {/* Usamos una ruta dinámica para el detalle del producto */}
+//         <Route path="/product-detail/:productId" element={<ProductPage />} />
+//       </Routes>
+
+//       {/* Cuando se selecciona un producto, navegamos al detalle del producto */}
+//       {selectedProduct && <Navigate to={`/product-detail/${selectedProduct}`} replace />}
+      
+//       <Footer />
+//     </>
+//   );
+// }
+
+// export default App;
+
+
+
+
 
 
 // import Drawer from './components/Drawer';

@@ -1,0 +1,305 @@
+import React, { FunctionComponent, useRef, useState } from 'react';
+import { Typography, Button } from '@mui/material';
+
+interface ProductDetailProps {
+  product: any;
+  onBack: () => void;
+}
+
+const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack }) => {
+  const zoomRef = useRef<HTMLDivElement>(null);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const [mouseInside, setMouseInside] = useState<boolean>(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (mouseInside) {
+      const img = zoomRef.current?.querySelector('img');
+      if (!img) return;
+
+      const rect = zoomRef.current?.getBoundingClientRect();
+      const offsetX = e.clientX - rect!.left;
+      const offsetY = e.clientY - rect!.top;
+      const percentX = offsetX / rect!.width;
+      const percentY = offsetY / rect!.height;
+
+      img.style.transformOrigin = `${percentX * 100}% ${percentY * 100}%`;
+
+      if (!isZoomed) {
+        img.style.transition = 'transform 0.5s ease';
+        img.style.transform = 'scale(2.5)';
+        setIsZoomed(true);
+      }
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setMouseInside(true);
+  };
+
+  const handleMouseLeave = () => {
+    setMouseInside(false);
+    if (isZoomed) {
+      const img = zoomRef.current?.querySelector('img');
+      if (img) {
+        img.style.transition = 'transform 0.5s ease';
+        img.style.transform = 'scale(1)';
+        setIsZoomed(false);
+      }
+    }
+  };
+
+  if (!product) {
+    return (
+      <div className="contenedor" style={{ display: 'flex' }}>
+        <div className="mitad-izquierda" style={{ flex: '1' }}>
+          <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+            No se ha seleccionado ningún producto.
+          </Typography>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="contenedor" style={{ display: 'flex' }}>
+      <div className="mitad-izquierda" style={{ flex: '1' }}>
+        <Button variant="contained" onClick={onBack} style={{ marginTop: '20px', marginLeft: '20px', marginBottom: '20px',float: 'left' }}>Back</Button>
+        <div
+          ref={zoomRef}
+          className="zoom-container"
+          onMouseEnter={handleMouseEnter}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          <img src={product.image} alt="Product" className="zoom-img" style={{ maxWidth: '100%', maxHeight: '400px', padding:'15px', marginTop: '20px', marginLeft: '20px'  }} />
+        </div>
+      </div>
+
+      <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
+        <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+          {product.title}
+        </Typography>
+
+        <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+          Price: ${product.price}
+        </Typography>
+
+        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+          Category: {product.category}
+        </Typography>
+
+        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+          Description: {product.description}
+        </Typography>
+
+        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+          Rating: {product.rating.rate} ({product.rating.count} reviews)
+        </Typography>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;
+
+
+
+
+// import React, { FunctionComponent } from 'react';
+// import { Typography, Button } from '@mui/material';
+
+// interface ProductDetailProps {
+//   product: any; // Cambiar el tipo de product a cualquier objeto de producto
+//   onBack: () => void;
+// }
+
+// const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack }) => { // Cambiar el tipo de product a cualquier objeto de producto
+//   if (!product) {
+//     return (
+//       <div className="contenedor" style={{ display: 'flex' }}>
+//         <div className="mitad-izquierda" style={{ flex: '1' }}>
+//           <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//             No se ha seleccionado ningún producto.
+//           </Typography>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // Aquí deberías obtener la información completa del producto usando el ID proporcionado,
+//   // ya sea desde una API o algún otro origen de datos.
+//   // Por ahora, solo estamos mostrando un mensaje indicando que el producto está seleccionado.
+
+//   return (
+//     <div className="contenedor" style={{ display: 'flex' }}>
+//            <div className="mitad-izquierda" style={{ flex: '1' }}>
+//            <Button variant="contained" onClick={onBack} style={{ marginTop: '20px', marginLeft: '20px',float: 'left' }}>Back</Button>          
+//              {/* <img src={product.image} alt="Product" style={{ maxWidth: '100%', maxHeight: '400px', padding:'15px'  }} /> */}
+
+//              <div className="zoom">
+//                 <img src={product.image} alt="Product" style={{ maxWidth: '100%', maxHeight: '400px', padding:'15px'  }} />
+//             </div>
+
+
+//            </div>
+           
+//            <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
+//            <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+//                {product.title}
+//              </Typography>
+             
+//              <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+//                Price: ${product.price}
+//              </Typography>
+             
+//              <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+//                Category: {product.category}
+//              </Typography>
+             
+//              <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+//                 Description: {product.description}
+//              </Typography>
+             
+//                 <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+//                Rating: {product.rating.rate} ({product.rating.count} reviews)
+//              </Typography>
+//            </div>
+//          </div>
+//   );
+// };
+
+// export default ProductDetail;
+
+
+
+// import  { FunctionComponent } from 'react';
+// import { Typography, Button } from '@mui/material';
+
+// interface ProductDetailProps {
+//     product: {
+//       id: string | null | undefined;
+//       image: string | undefined;
+//       title: string | undefined;
+//       price: number | undefined;
+//       category: string | undefined;
+//       rating: { rate: string | number | undefined; count: string | number | undefined };
+//     } | null; // Ajustamos el tipo de product para permitir null
+//     onBack: () => void;
+// }
+
+// const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack }) => {
+
+//     console.log(product);
+
+
+//   if (!product) {
+//     return (
+//       <div className="contenedor" style={{ display: 'flex' }}>
+//         <div className="mitad-izquierda" style={{ flex: '1' }}>
+//           <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//             No se ha seleccionado ningún producto.
+//           </Typography>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="contenedor" style={{ display: 'flex' }}>
+//       <div className="mitad-izquierda" style={{ flex: '1' }}>
+//         <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           {product.title}
+//         </Typography>
+//         <img src={product.image} alt="Product" style={{ maxWidth: '100%' }} />
+//       </div>
+//       <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
+//         <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           Price: ${product.price}
+//         </Typography>
+//         <Typography variant="body1" align="center" style={{ lineHeight: '1.5em' }}>
+//           Category: {product.category}
+//         </Typography>
+//         <Typography variant="body1" align="center" style={{ lineHeight: '1.5em' }}>
+//           Rating: {product.rating.rate} ({product.rating.count} reviews)
+//         </Typography>
+//         <Button variant="contained" onClick={onBack} style={{ marginTop: '20px' }}>Back</Button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductDetail;
+
+
+
+// import React, { FunctionComponent } from 'react';
+// import { Typography } from '@mui/material';
+
+// interface ProductDetailProps {
+//   product: {
+//     id: string | null | undefined;
+//     image: string | undefined;
+//     title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
+//     price: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
+//     category: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined;
+//     rating: { rate: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; count: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; };
+//   };
+// }
+
+// const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
+//   return (
+//     <div className="contenedor" style={{ display: 'flex' }}>
+//       <div className="mitad-izquierda" style={{ flex: '1' }}>
+//         <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           {product.title}
+//         </Typography>
+//         <img src={product.image} alt="Product" style={{ maxWidth: '100%' }} />
+//       </div>
+//       <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
+//         <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           Price: ${product.price}
+//         </Typography>
+//         <Typography variant="body1" align="center" style={{ lineHeight: '1.5em' }}>
+//           Category: {product.category}
+//         </Typography>
+//         <Typography variant="body1" align="center" style={{ lineHeight: '1.5em' }}>
+//           Rating: {product.rating.rate} ({product.rating.count} reviews)
+//         </Typography>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductDetail;
+
+
+
+
+
+// import { FunctionComponent} from "react";
+// import { Typography  } from '@mui/material';
+
+// const ProductDetail: FunctionComponent = () => {
+
+//   return (
+//     <div className="contenedor" style={{ display: 'flex' }}>
+//       <div className="mitad-izquierda" style={{ flex: '1' }}>
+//       <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           Obten un mejor control de tus inventarios,
+//           inicia sesión para comenzar!!
+//         </Typography>
+
+       
+//       </div>
+
+//       <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
+//         <Typography variant="h6" align="center" style={{ lineHeight: '1.5em' }}>
+//           Obten un mejor control de tus inventarios,
+//           inicia sesión para comenzar!!
+//         </Typography>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductDetail;
