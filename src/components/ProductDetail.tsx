@@ -7,7 +7,7 @@ interface ProductDetailProps {
   onBack: () => void;
 }
 
-const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack }) => {
+const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
   const zoomRef = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [mouseInside, setMouseInside] = useState<boolean>(false);
