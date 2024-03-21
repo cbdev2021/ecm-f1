@@ -152,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                         <ShoppingCartCheckoutIcon />
                     </Badge>
                 </IconButton>
-                <p>Carrito</p>
+                <p>Cart</p>
             </MenuItem>
         </Menu>
     );
