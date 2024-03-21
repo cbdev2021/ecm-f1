@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Grid } from '@mui/material';
+import { Link } from 'react-router-dom'; // Importar Link desde React Router
 
 interface ProductDetailProps {
   product: any;
@@ -61,9 +62,13 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack 
   }
 
   return (
-    <div className="contenedor" style={{ display: 'flex' }}>
-      <div className="mitad-izquierda" style={{ flex: '1' }}>
-        <Button variant="contained" onClick={onBack} style={{ marginTop: '20px', marginLeft: '20px', marginBottom: '20px',float: 'left' }}>Back</Button>
+    <Grid container spacing={2} style={{ marginTop: 0 }}>
+
+      <Grid item xs={12} sm={6} md={6} lg={6}>
+        {/* Utilizar Link para redireccionar al catálogo de productos */}
+        <Link to="/product-catalog" style={{ textDecoration: 'none' }}>
+          <Button variant="contained" style={{ marginLeft: '20px', marginBottom: '20px', float: 'left' }}>Back</Button>
+        </Link>
         <div
           ref={zoomRef}
           className="zoom-container"
@@ -71,32 +76,55 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onBack 
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
-          <img src={product.image} alt="Product" className="zoom-img" style={{ maxWidth: '100%', maxHeight: '400px', padding:'15px', marginTop: '20px', marginLeft: '20px'  }} />
+          <img
+            src={product.image}
+            alt="Product"
+            className="zoom-img"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '400px',
+              padding: '15px',
+              display: 'block',
+              margin: 'auto',
+            }}
+        />
         </div>
-      </div>
+      </Grid>
 
-      <div className="mitad-derecha" style={{ flex: '1', backgroundColor: '#e0e0e0', padding: '20px' }}>
-        <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
-          {product.title}
-        </Typography>
+      <Grid item xs={12} sm={6} md={6} lg={6} style={{ backgroundColor: '#e0e0e0'}}>
+        <div style={{ backgroundColor: '#e0e0e0', padding: '20px' }}>
+        <div>
+          <hr />
+          <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+            <span style={{ fontWeight: 'bold' }}>{product.title}</span>
+          </Typography>
+          <hr />
 
-        <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
-          Price: ${product.price}
-        </Typography>
+          <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+            <span style={{ fontWeight: 'bold' }}>Price: ${product.price}</span>
+          </Typography>
+          <hr />
 
-        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-          Category: {product.category}
-        </Typography>
+          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+            <span style={{ fontWeight: 'bold' }}>Category:</span> {product.category}
+          </Typography>
+          <hr />
 
-        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-          Description: {product.description}
-        </Typography>
+          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+            <span style={{ fontWeight: 'bold' }}>Description:</span> {product.description}
+          </Typography>
+          <hr />
 
-        <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-          Rating: {product.rating.rate} ({product.rating.count} reviews)
-        </Typography>
-      </div>
-    </div>
+          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+            <span style={{ fontWeight: 'bold' }}>Rating:</span> {product.rating.rate} ({product.rating.count} reviews)
+          </Typography>
+          <hr />
+        </div>
+
+          
+        </div>
+      </Grid>
+    </Grid>    
   );
 };
 
