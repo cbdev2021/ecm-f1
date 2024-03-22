@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import { Typography, Button, Grid } from '@mui/material';
-import { Link } from 'react-router-dom'; // Importar Link desde React Router
+import { Typography, Button, Grid, TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface ProductDetailProps {
   product: any;
@@ -11,6 +11,7 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
   const zoomRef = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [mouseInside, setMouseInside] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (mouseInside) {
@@ -49,6 +50,10 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
     }
   };
 
+  const handleAddToCart = () => {
+    console.log(`Added ${quantity} ${product.title} to cart`);
+  };
+
   if (!product) {
     return (
       <div className="contenedor" style={{ display: 'flex' }}>
@@ -63,9 +68,7 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
 
   return (
     <Grid container spacing={2} style={{ marginTop: 0 }}>
-
       <Grid item xs={12} sm={6} md={6} lg={6}>
-        {/* Utilizar Link para redireccionar al catálogo de productos */}
         <Link to="/product-catalog" style={{ textDecoration: 'none' }}>
           <Button variant="contained" style={{ marginLeft: '20px', marginBottom: '20px', float: 'left' }}>Back</Button>
         </Link>
@@ -87,49 +90,67 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
               display: 'block',
               margin: 'auto',
             }}
-        />
-        </div>
+          />
+        </div>       
       </Grid>
 
-      <Grid item xs={12} sm={6} md={6} lg={6} style={{ backgroundColor: '#e0e0e0'}}>
+      <Grid item xs={12} sm={6} md={6} lg={6} style={{ backgroundColor: '#e0e0e0' }}>
         <div style={{ backgroundColor: '#e0e0e0', padding: '20px' }}>
-        <div>
-          <hr />
-          <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
-            <span style={{ fontWeight: 'bold' }}>{product.title}</span>
-          </Typography>
-          <hr />
+          <div>
+            <hr />
+            <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+              <span style={{ fontWeight: 'bold' }}>{product.title}</span>
+            </Typography>
+            <hr />
 
-          <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
-            <span style={{ fontWeight: 'bold' }}>Price: ${product.price}</span>
-          </Typography>
-          <hr />
+            <Typography variant="h6" align="justify" style={{ lineHeight: '1.5em' }}>
+              <span style={{ fontWeight: 'bold' }}>Price: ${product.price}</span>
+            </Typography>
+            <hr />
 
-          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-            <span style={{ fontWeight: 'bold' }}>Category:</span> {product.category}
-          </Typography>
-          <hr />
+            <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+              <span style={{ fontWeight: 'bold' }}>Category:</span> {product.category}
+            </Typography>
+            <hr />
 
-          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-            <span style={{ fontWeight: 'bold' }}>Description:</span> {product.description}
-          </Typography>
-          <hr />
+            <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+              <span style={{ fontWeight: 'bold' }}>Description:</span> {product.description}
+            </Typography>
+            <hr />
 
-          <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
-            <span style={{ fontWeight: 'bold' }}>Rating:</span> {product.rating.rate} ({product.rating.count} reviews)
-          </Typography>
-          <hr />
-        </div>
+            <Typography variant="body1" align="justify" style={{ lineHeight: '1.5em' }}>
+              <span style={{ fontWeight: 'bold' }}>Rating:</span> {product.rating.rate} ({product.rating.count} reviews)
+            </Typography>
+            <hr />
+            <div>
+                <TextField
+                    id="quantity"
+                    label="Quantity"
+                    type="number"
+                    value={quantity}
+                    InputProps={{ inputProps: { min: 1 } }}
+                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    variant="outlined"
+                    style={{ margin: '10px 0', width: '100px' }}
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddToCart}
+                    style={{ margin: '10px 0', width: '100px' }}
+                  >
+                    Add to Cart
+                  </Button>
+              </div>
 
-          
+          </div>
         </div>
       </Grid>
-    </Grid>    
+    </Grid>
   );
 };
 
 export default ProductDetail;
-
 
 
 

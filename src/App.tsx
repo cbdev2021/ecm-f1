@@ -5,15 +5,28 @@ import Header from './components/Header';
 import ProductCatalog from './components/ProductCatalog';
 import Footer from './components/Footer';
 import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
 
 function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState<any>(null); // Cambiar el tipo de selectedProduct a cualquier objeto de producto
 
+  const [cartOpen, setCartOpen] = useState(false);
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
+
+  const toggleCart = () => {
+    setCartOpen(!cartOpen);
+  };
+
+  const handleCategorySelectCart = (category: string) => {
+    setCategoryFilter(category);
+    setCartOpen(false);
+  };
+
 
   const handleCategorySelect = (category: string) => {
     setCategoryFilter(category);
@@ -30,8 +43,11 @@ function App() {
 
   return (
     <>
-      <Header onMenuClick={toggleDrawer} />
+      <Header onMenuClick={toggleDrawer} onCartClick={toggleCart} />
       <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => {}} handleCategorySelect={handleCategorySelect} />
+      {/* <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} > */}
+      <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} />
+
 
       <Routes>
         <Route path="/" element={<Navigate to="/product-catalog" />} />

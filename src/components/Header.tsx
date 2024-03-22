@@ -58,12 +58,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 interface HeaderProps {
     onMenuClick: () => void;
+    onCartClick: () => void;
 }
 
 
 // const Header = () => {
 // const Header: <HeaderProps> = ({ onMenuClick }) => {
-const Header: React.FC<HeaderProps> = ({ onMenuClick }) => { 
+const Header: React.FC<HeaderProps> = ({ onMenuClick, onCartClick }) => {
 
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -142,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <p>Profile</p>
             </MenuItem>
 
-            <MenuItem>
+            <MenuItem onClick={onCartClick}>
                 <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
@@ -154,6 +155,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 </IconButton>
                 <p>Cart</p>
             </MenuItem>
+
         </Menu>
     );
 
@@ -240,7 +242,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                                 Inicia sesión
                             </span>
                         </button>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={onCartClick}>
                             <Badge badgeContent={4} color="error">
                                 <ShoppingCartCheckoutIcon style={{ color: 'white', fontSize: '2.5rem' }} />
                             </Badge>
