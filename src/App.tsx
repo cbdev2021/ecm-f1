@@ -13,6 +13,8 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null); // Cambiar el tipo de selectedProduct a cualquier objeto de producto
 
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -41,18 +43,27 @@ function App() {
     setSelectedProduct(null);
   };
 
+  const addToCart = (product: any) => {
+    setCartItems([...cartItems, product]);
+  };
+  
+
   return (
     <>
       <Header onMenuClick={toggleDrawer} onCartClick={toggleCart} />
       <Drawer open={drawerOpen} onClose={toggleDrawer} onOpen={() => {}} handleCategorySelect={handleCategorySelect} />
       {/* <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} > */}
-      <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} />
+      {/* <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} /> */}
+      <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} cartItems={cartItems} />
 
 
       <Routes>
         <Route path="/" element={<Navigate to="/product-catalog" />} />
         <Route path="/product-catalog" element={<ProductCatalog onSelectProduct={handleProductSelect} categoryFilter={categoryFilter} />} />
-        <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick} />} />
+        {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick} />} /> */}
+        <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} />} />
+
+
       </Routes>
 
       <Footer />

@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 interface ProductDetailProps {
   product: any;
   onBack: () => void;
+  onAddToCart: (product: any) => void; // Add this prop
 }
 
-const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
+const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onAddToCart }) => {
   const zoomRef = useRef<HTMLDivElement>(null);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [mouseInside, setMouseInside] = useState<boolean>(false);
@@ -52,6 +53,8 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product }) => {
 
   const handleAddToCart = () => {
     console.log(`Added ${quantity} ${product.title} to cart`);
+    onAddToCart(product); // Llamada a la función para añadir al carrito
+
   };
 
   if (!product) {
