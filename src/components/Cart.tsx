@@ -35,12 +35,16 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, handleCateg
             sx={{
                 width: '100%',
                 '& .MuiDrawer-paper': {
-                    width: '30%',
+                    width: '35%',
+                    '@media (max-width: 960px)': {
+                        width: '55%'
+                    },
                     '@media (max-width: 600px)': {
                         width: '80%'
                     }
                 }
             }}
+            
         >
             <div role="presentation">
                 <List>
