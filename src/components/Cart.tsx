@@ -75,7 +75,8 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                             <ListItemText primary="Close" />
                         </ListItemButton>
                     </ListItem>
-                    {consolidatedCartItems.length === 0 ? (
+                    <Divider />
+                    {/* {consolidatedCartItems.length === 0 ? (
                         <ListItem>
                             <ListItemText primary="Your cart is empty" />
                         </ListItem>
@@ -88,7 +89,18 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                                 <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
                             </ListItem>
                         ))
-                    )}
+                    )} */}
+                    {consolidatedCartItems.map((item, index) => (
+                        <React.Fragment key={index}>
+                            {index !== 0 && <Divider />} {/* Agrega Divider entre elementos, pero no antes del primero */}
+                            <ListItem>
+                                <ListItemIcon>
+                                    <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
+                            </ListItem>
+                        </React.Fragment>
+                    ))}
                 </List>
                 <Divider />
             </div>
