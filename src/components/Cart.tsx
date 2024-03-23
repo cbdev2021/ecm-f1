@@ -7,9 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import CloseIcon from '@mui/icons-material/Close'; 
 
 interface CartProps {
     open: boolean;
@@ -21,7 +19,7 @@ interface CartProps {
 
 }
 
-const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, handleCategorySelect, cartItems }) => { 
+const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }) => { 
     console.log(cartItems);
 
     return (
