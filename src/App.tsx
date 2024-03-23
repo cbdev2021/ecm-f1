@@ -63,6 +63,10 @@ function App() {
         {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick} />} /> */}
         <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} />} />
 
+        {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} cartItems={cartItems}/>} />
+  */}
+
+
 
       </Routes>
 
