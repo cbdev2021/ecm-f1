@@ -8,6 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Button from '@mui/material/Button';
 
 interface CartProps {
     open: boolean;
@@ -38,11 +39,20 @@ const consolidateCartItems = (cartItems: any[]): any[] => {
     return consolidatedItemsArray;
 };
 
+const handleBuy = () => {
+    // Aquí puedes manejar la acción de comprar
+    console.log("Buy button clicked!");
+};
+
 const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }) => { 
     console.log(cartItems);
 
     // Consolidate cart items
     const consolidatedCartItems = consolidateCartItems(cartItems || []);
+
+    const totalAmount = consolidatedCartItems.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0);
 
     return (
         <SwipeableDrawer
@@ -76,23 +86,9 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                         </ListItemButton>
                     </ListItem>
                     <Divider />
-                    {/* {consolidatedCartItems.length === 0 ? (
-                        <ListItem>
-                            <ListItemText primary="Your cart is empty" />
-                        </ListItem>
-                    ) : (
-                        consolidatedCartItems.map((item, index) => (
-                            <ListItem key={index}>
-                                <ListItemIcon>
-                                    <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
-                                </ListItemIcon>
-                                <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
-                            </ListItem>
-                        ))
-                    )} */}
                     {consolidatedCartItems.map((item, index) => (
                         <React.Fragment key={index}>
-                            {index !== 0 && <Divider />} {/* Agrega Divider entre elementos, pero no antes del primero */}
+                            {index !== 0 && <Divider />}
                             <ListItem>
                                 <ListItemIcon>
                                     <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
@@ -103,12 +99,150 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                     ))}
                 </List>
                 <Divider />
+                <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+                    <div className="cart-summary" style={{ marginBottom: '16px', padding: '16px'  }}>
+                        <div className="cart-summary-row">
+                            <div className="label">Subtotal</div>
+                            {/* <div className="value">$249.860</div> */}
+                            <div className="value">${totalAmount.toFixed(2)}</div>
+                        </div>
+                        <hr style={{ margin: '8px 0' }} />
+                        <div className="cart-summary-row cart-total">
+                            <div className="label">Total normal</div>
+                            {/* <div className="value">$249.860</div> */}
+                            <div className="value">${totalAmount.toFixed(2)}</div>
+                        </div>
+                    </div>
+                    <div style={{ padding: '16px' }}>
+                        <Button variant="contained" onClick={onClose} color="primary" fullWidth>
+                            Close
+                        </Button>
+                        <div style={{ marginTop: '8px' }}>
+                            <Button variant="contained" onClick={handleBuy} color="secondary" fullWidth>
+                                Buy
+                            </Button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </SwipeableDrawer>
     );
 };
 
 export default Cart;
+
+
+// import React, { FunctionComponent } from 'react';
+// import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+// import List from '@mui/material/List';
+// import Divider from '@mui/material/Divider';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemButton from '@mui/material/ListItemButton';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemText from '@mui/material/ListItemText';
+// import IconButton from '@mui/material/IconButton';
+// import CloseIcon from '@mui/icons-material/Close';
+
+// interface CartProps {
+//     open: boolean;
+//     onClose: (event: React.KeyboardEvent | React.MouseEvent) => void;
+//     onOpen: (event: React.KeyboardEvent | React.MouseEvent) => void;
+//     handleCategorySelect: (category: string) => void;
+//     cartItems?: any[]; // Make it optional
+// }
+
+// const consolidateCartItems = (cartItems: any[]): any[] => {
+//     const consolidatedItemsMap = new Map<number, any>();
+
+//     // Consolidate cart items based on their IDs
+//     cartItems.forEach((item) => {
+//         if (consolidatedItemsMap.has(item.id)) {
+//             const existingItem = consolidatedItemsMap.get(item.id);
+//             if (existingItem) {
+//                 existingItem.quantity += item.quantity;
+//             }
+//         } else {
+//             consolidatedItemsMap.set(item.id, { ...item });
+//         }
+//     });
+
+//     // Convert consolidated items map to array
+//     const consolidatedItemsArray = Array.from(consolidatedItemsMap.values());
+
+//     return consolidatedItemsArray;
+// };
+
+// const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }) => { 
+//     console.log(cartItems);
+
+//     // Consolidate cart items
+//     const consolidatedCartItems = consolidateCartItems(cartItems || []);
+
+//     return (
+//         <SwipeableDrawer
+//             anchor="right"
+//             open={open}
+//             onClose={onClose}
+//             onOpen={onOpen}
+//             sx={{
+//                 width: '100%',
+//                 '& .MuiDrawer-paper': {
+//                     width: '35%',
+//                     '@media (max-width: 960px)': {
+//                         width: '55%'
+//                     },
+//                     '@media (max-width: 600px)': {
+//                         width: '80%'
+//                     }
+//                 }
+//             }}
+//         >
+//             <div role="presentation">
+//                 <List>
+//                     <ListItem disablePadding>
+//                         <ListItemButton sx={{ width: '100%' }} onClick={onClose}>
+//                             <ListItemIcon>
+//                                 <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
+//                                     <CloseIcon />
+//                                 </IconButton>
+//                             </ListItemIcon>
+//                             <ListItemText primary="Close" />
+//                         </ListItemButton>
+//                     </ListItem>
+//                     <Divider />
+//                     {/* {consolidatedCartItems.length === 0 ? (
+//                         <ListItem>
+//                             <ListItemText primary="Your cart is empty" />
+//                         </ListItem>
+//                     ) : (
+//                         consolidatedCartItems.map((item, index) => (
+//                             <ListItem key={index}>
+//                                 <ListItemIcon>
+//                                     <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+//                                 </ListItemIcon>
+//                                 <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
+//                             </ListItem>
+//                         ))
+//                     )} */}
+//                     {consolidatedCartItems.map((item, index) => (
+//                         <React.Fragment key={index}>
+//                             {index !== 0 && <Divider />} {/* Agrega Divider entre elementos, pero no antes del primero */}
+//                             <ListItem>
+//                                 <ListItemIcon>
+//                                     <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+//                                 </ListItemIcon>
+//                                 <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
+//                             </ListItem>
+//                         </React.Fragment>
+//                     ))}
+//                 </List>
+//                 <Divider />
+//             </div>
+//         </SwipeableDrawer>
+//     );
+// };
+
+// export default Cart;
 
 
 // import React, { FunctionComponent } from 'react';
