@@ -108,7 +108,7 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                         </div>
                         <hr style={{ margin: '8px 0' }} />
                         <div className="cart-summary-row cart-total">
-                            <div className="label">Total normal</div>
+                            <div className="label">Total</div>
                             {/* <div className="value">$249.860</div> */}
                             <div className="value">${totalAmount.toFixed(2)}</div>
                         </div>

@@ -46,7 +46,6 @@ function App() {
   const addToCart = (product: any) => {
     setCartItems([...cartItems, product]);
   };
-  
 
   return (
     <>
@@ -56,20 +55,14 @@ function App() {
       {/* <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} /> */}
       <Cart open={cartOpen} onClose={toggleCart} onOpen={() => {}} handleCategorySelect={handleCategorySelectCart} cartItems={cartItems} />
 
-
       <Routes>
         <Route path="/" element={<Navigate to="/product-catalog" />} />
         <Route path="/product-catalog" element={<ProductCatalog onSelectProduct={handleProductSelect} categoryFilter={categoryFilter} />} />
         {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick} />} /> */}
         <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} />} />
 
-        {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} cartItems={cartItems}/>} />
-  */}
-
-
-
+        {/* <Route path="/product-detail/:productId" element={<ProductDetail product={selectedProduct} onBack={handleBackClick}  onAddToCart={addToCart} cartItems={cartItems}/>} /> */}
       </Routes>
-
       <Footer />
     </>
   );
