@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -9,6 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
+import { InputAdornment, TextField } from '@mui/material';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; 
 
 interface CartProps {
     open: boolean;
@@ -44,15 +47,41 @@ const handleBuy = () => {
     console.log("Buy button clicked!");
 };
 
+
 const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }) => { 
-    console.log(cartItems);
+    // State para el array de cartItems consolidados
+    const [consolidatedCartItems, setConsolidatedCartItems] = useState<any[]>([]);
 
-    // Consolidate cart items
-    const consolidatedCartItems = consolidateCartItems(cartItems || []);
+    // Efecto para actualizar consolidatedCartItems cuando cambien cartItems
+    useEffect(() => {
+        if (cartItems) {
+            const newConsolidatedCartItems = consolidateCartItems(cartItems);
+            setConsolidatedCartItems(newConsolidatedCartItems);
+        }
+    }, [cartItems]);
 
-    const totalAmount = consolidatedCartItems.reduce((total, item) => {
-        return total + (item.price * item.quantity);
-    }, 0);
+    // Función para manejar el incremento de cantidad
+    const handleIncrement = (index: number) => {
+        const updatedItems = [...consolidatedCartItems];
+        updatedItems[index].quantity += 1;
+        setConsolidatedCartItems(updatedItems);
+    };
+    
+    // Función para manejar el decremento de cantidad
+    const handleDecrement = (index: number) => {
+        const updatedItems = [...consolidatedCartItems];
+        if (updatedItems[index].quantity > 1) {
+            updatedItems[index].quantity -= 1;
+            setConsolidatedCartItems(updatedItems);
+        }
+    };
+
+    // Función para obtener el total del carrito
+    const getTotalAmount = (): number => {
+        return consolidatedCartItems.reduce((total, item) => {
+            return total + (item.price * item.quantity);
+        }, 0);
+    };
 
     return (
         <SwipeableDrawer
@@ -75,17 +104,7 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
         >
             <div role="presentation">
                 <List>
-                    <ListItem disablePadding>
-                        <ListItemButton sx={{ width: '100%' }} onClick={onClose}>
-                            <ListItemIcon>
-                                <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
-                                    <CloseIcon />
-                                </IconButton>
-                            </ListItemIcon>
-                            <ListItemText primary="Close" />
-                        </ListItemButton>
-                    </ListItem>
-                    <Divider />
+                    {/* Lista de items */}
                     {consolidatedCartItems.map((item, index) => (
                         <React.Fragment key={index}>
                             {index !== 0 && <Divider />}
@@ -93,26 +112,53 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                                 <ListItemIcon>
                                     <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
                                 </ListItemIcon>
-                                <ListItemText primary={item.title} secondary={`Quantity: ${item.quantity} | Price: $${item.price}`}  />
+                                <ListItemText 
+                                    primary={item.title} 
+                                    secondary={`Price: $${item.price}`} 
+                                    style={{ marginRight: '20px' }} // Espacio entre el texto y el TextField
+                                />
+                                {/* Agregar TextField para la cantidad */}
+                                <TextField
+                                    id={`quantity-${index}`} // Agregar un ID único para cada TextField
+                                    type="number"
+                                    value={item.quantity}
+                                    InputProps={{
+                                        inputProps: { min: 1 },
+                                        style: { width: '123px' }, // Ancho del campo de entrada
+                                        endAdornment: (
+                                            <InputAdornment position="end" style={{ marginLeft: '-10px' }}>
+                                                <IconButton onClick={() => handleDecrement(index)}>
+                                                    <ArrowBackIcon />
+                                                </IconButton>
+                                                <div style={{ width: '35px', textAlign: 'center' }}>{item.quantity}</div>
+                                                <IconButton onClick={() => handleIncrement(index)}>
+                                                    <ArrowForwardIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    variant="outlined"
+                                    style={{ margin: '10px 0', width: '150px' }} // Ajustar el ancho del TextField
+                                />
                             </ListItem>
                         </React.Fragment>
                     ))}
                 </List>
                 <Divider />
+                {/* Resumen del carrito */}
                 <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
                     <div className="cart-summary" style={{ marginBottom: '16px', padding: '16px'  }}>
                         <div className="cart-summary-row">
                             <div className="label">Subtotal</div>
-                            {/* <div className="value">$249.860</div> */}
-                            <div className="value">${totalAmount.toFixed(2)}</div>
+                            <div className="value">${getTotalAmount().toFixed(2)}</div>
                         </div>
                         <hr style={{ margin: '8px 0' }} />
                         <div className="cart-summary-row cart-total">
                             <div className="label">Total</div>
-                            {/* <div className="value">$249.860</div> */}
-                            <div className="value">${totalAmount.toFixed(2)}</div>
+                            <div className="value">${getTotalAmount().toFixed(2)}</div>
                         </div>
                     </div>
+                    {/* Botones para cerrar y comprar */}
                     <div style={{ padding: '16px' }}>
                         <Button variant="contained" onClick={onClose} color="primary" fullWidth>
                             Close
@@ -130,6 +176,7 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
 };
 
 export default Cart;
+
 
 
 // import React, { FunctionComponent } from 'react';
