@@ -108,16 +108,9 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                     {consolidatedCartItems.map((item, index) => (
                         <React.Fragment key={index}>
                             {index !== 0 && <Divider />}
-                            <ListItem>
-                                <ListItemIcon>
-                                    <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
-                                </ListItemIcon>
-                                <ListItemText 
-                                    primary={item.title} 
-                                    secondary={`Price: $${item.price}`} 
-                                    style={{ marginRight: '20px' }} // Espacio entre el texto y el TextField
-                                />
-                                {/* Agregar TextField para la cantidad */}
+                            <ListItem style={{ display: 'flex', alignItems: 'center' }}>
+                            {/* TextField */}
+                            <div style={{ flex: 1 }}>
                                 <TextField
                                     id={`quantity-${index}`} // Agregar un ID único para cada TextField
                                     type="number"
@@ -138,9 +131,19 @@ const Cart: FunctionComponent<CartProps> = ({ open, onClose, onOpen, cartItems }
                                         ),
                                     }}
                                     variant="outlined"
-                                    style={{ margin: '10px 0', width: '150px' }} // Ajustar el ancho del TextField
+                                    style={{ margin: '10px 0', width: '50%', minWidth: '150px' }} // Ajustar el ancho del TextField
                                 />
-                            </ListItem>
+                            </div>
+                            {/* ListItemIcon y ListItemText */}
+                            <ListItemIcon>
+                                <img src={item.image} alt="Product" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                            </ListItemIcon>
+                            <ListItemText 
+                                primary={item.title} 
+                                secondary={`Price: $${item.price}`} 
+                                style={{ marginRight: '20px' }} // Espacio entre el texto y el TextField
+                            />
+                        </ListItem>
                         </React.Fragment>
                     ))}
                 </List>
