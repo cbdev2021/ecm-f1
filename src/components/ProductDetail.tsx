@@ -1,6 +1,11 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import { Typography, Button, Grid, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Typography, Button, Grid, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Link } from 'react-router-dom'; 
+// import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+// import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"; 
+
 
 interface ProductDetailProps {
   product: any;
@@ -13,6 +18,16 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onAddTo
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [mouseInside, setMouseInside] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
+  
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (mouseInside) {
@@ -126,7 +141,7 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onAddTo
             </Typography>
             <hr />
             <div>
-                <TextField
+                {/* <TextField
                     id="quantity"
                     label="Quantity"
                     type="number"
@@ -135,16 +150,40 @@ const ProductDetail: FunctionComponent<ProductDetailProps> = ({ product, onAddTo
                     onChange={(e) => setQuantity(parseInt(e.target.value))}
                     variant="outlined"
                     style={{ margin: '10px 0', width: '100px' }}
-                  />
- 
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAddToCart}
-                    style={{ margin: '10px 0' }}
-                  >
-                    Add to Cart
-                  </Button>
+                  /> */}
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <TextField
+                        id="quantity"
+                        // label="Quantity"
+                        type="number"
+                        value={quantity}
+                        InputProps={{
+                          inputProps: { min: 1 },
+                          style: { display: 'flex', alignItems: 'center', width: '123px' }, // Ajusta el ancho del campo de entrada
+                          endAdornment: (
+                            <InputAdornment position="end" style={{ marginLeft: '-10px' }}>
+                              <IconButton onClick={handleDecrement}>
+                                <ArrowBackIcon />
+                              </IconButton>
+                              <div style={{ width: '35px', textAlign: 'center' }}>{quantity}</div>
+                              <IconButton onClick={handleIncrement}>
+                                <ArrowForwardIcon />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        variant="outlined"
+                        style={{ margin: '10px 0', width: '150px' }} // Ajusta el ancho del TextField
+                      />
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleAddToCart}
+                        style={{ margin: '10px 0', height: '56px', marginLeft: '10px' }} // Ajusta la altura del botón
+                      >
+                        Add to Cart
+                      </Button>
+                    </div> 
               </div>
 
           </div>
